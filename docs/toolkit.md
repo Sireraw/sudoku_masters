@@ -121,21 +121,11 @@ Expected Output (JSON Response):
 
 
 ## 6. AI Prompt Journal- ( ai_prompt_journal.md)
-Prompt
-Summary of AI Response
-Evaluation/Reflection
-"Write a simple Go program that solves a 9x9 sudoku game using backtracking and prints the result."
-Provided the core solveSudoku, isSafe, and printBoard functions. (The base for this project).
-High Productivity. Solved the core algorithm problem instantly. Showed correct use of array pointers (*[N][N]int) for in-place modification.
-"Convert the Sudoku solver Go code into a RESTful API using the net/http package. It should accept a JSON body with the board and return the solved board as JSON."
-Generated the solveHandler function, demonstrated how to use json.NewDecoder and json.NewEncoder, and defined the necessary struct types (SudokuRequest, SudokuResponse).
-Excellent Clarity. Clearly demonstrated how Go uses structs for JSON marshaling/unmarshaling, which is crucial for API building in Go.
-"In Go's net/http package, how do I handle CORS headers (Access-Control-Allow-Origin) for a POST request?"
-Provided the necessary w.Header().Set() commands for CORS and explained the need to handle the http.MethodOptions (pre-flight request).
-Targeted Solution. Saved significant time debugging browser-based testing issues by providing the standard CORS pattern.
-"Compare Go's approach to API building using its standard library vs. Python's Flask or FastAPI."
-Detailed the difference between standard library vs. framework, compiled vs. interpreted, and Go's performance edge in concurrent I/O.
-Learning Reflection. Helped frame the "Quick Summary of the Technology" section and solidify the differences in language architecture.
+| Prompt | Summary of AI Response | Evaluation/Reflection |
+| "Write a simple Go program that solves a 9x9 sudoku game using backtracking and prints the result." | Provided the core solveSudoku, isSafe, and printBoard functions. (The base for this project). | High Productivity. Solved the core algorithm problem instantly. Showed correct use of array pointers (*[N][N]int) for in-place modification. |
+| "Convert the Sudoku solver Go code into a RESTful API using the net/http package. It should accept a JSON body with the board and return the solved board as JSON." | Generated the solveHandler function, demonstrated how to use json.NewDecoder and json.NewEncoder, and defined the necessary struct types (SudokuRequest, SudokuResponse). | Excellent Clarity. Clearly demonstrated how Go uses structs for JSON marshaling/unmarshaling, which is crucial for API building in Go.|
+| "In Go's net/http package, how do I handle CORS headers (Access-Control-Allow-Origin) for a POST request?" | Provided the necessary w.Header().Set() commands for CORS and explained the need to handle the http.MethodOptions (pre-flight request). | **Targeted Solution.** Saved significant time debugging browser-based testing issues by providing the standard CORS pattern. |
+| "Compare Go's approach to API building using its standard library vs. Python's Flask or FastAPI." | Detailed the difference between standard library vs. framework, compiled vs. interpreted, and Go's performance edge in concurrent I/O. | Learning Reflection. Helped frame the "Quick Summary of the Technology" section and solidify the differences in language architecture. |
 
 ## 7. Common Issues & Fixes
 | Issue | Description | Resolution |
@@ -146,7 +136,7 @@ Learning Reflection. Helped frame the "Quick Summary of the Technology" section 
 | Server only allows one connection at a time (Slow) | (Self-Correction) If you had written blocking code inside solveSudoku, it would block the server. Go's net/http package automatically handles each incoming request in its own Goroutine, which is why the server remains highly responsive even during complex computations. | Fix: (No fix needed, it's a Go feature!) The standard library's design prevents this issue, demonstrating Go's robust concurrency model. |
 
 ## 8. References
-Official Go Documentation: https://go.dev/doc/
-Go Standard Library (net/http): https://pkg.go.dev/net/http (The primary tool for API creation).
-Go Standard Library (encoding/json): https://pkg.go.dev/encoding/json (Essential for handling API data).
-A Tour of Go: https://go.dev/tour/ (Excellent interactive tutorial for beginners).
+- Official Go Documentation: https://go.dev/doc/
+- Go Standard Library (net/http): https://pkg.go.dev/net/http (The primary tool for API creation).
+- Go Standard Library (encoding/json): https://pkg.go.dev/encoding/json (Essential for handling API data).
+- A Tour of Go: https://go.dev/tour/ (Excellent interactive tutorial for beginners).
