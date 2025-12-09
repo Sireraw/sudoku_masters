@@ -30,13 +30,13 @@
 - **API Client:** A tool like curl or Postman (or an in-browser console) to test the API endpoint.
 
 ## 4. Installation & Setup Instructions
-  1. **Install Go:**
+ 1. **Install Go:**
 - Navigate to the official Go website: https://go.dev/doc/install
 - Download the appropriate installer for your OS and follow the instructions.
 - **Verify Installation:** Open your terminal/command prompt and run: go version
 Expected output: go version go1.x.x <os>/<arch>
 
-   2. **Initialize Project:**
+  2. **Initialize Project:**
 - Create a new directory for your project and navigate into it.
 - Initialize a Go module (this manages dependencies, though we use only standard library here):
 ```bash
