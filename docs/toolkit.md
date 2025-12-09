@@ -1,4 +1,5 @@
 # Beginner’s Toolkit: Go (Golang) - Sudoku Solver API
+
 ## 1. Title & Objective
 **Technology Chosen:** Go (Golang)
 **Objective:** To learn Go fundamentals, focusing on its architecture for concurrent and network-based applications, by building a simple, high-performance **Sudoku Solver REST API** using the backtracking algorithm.
