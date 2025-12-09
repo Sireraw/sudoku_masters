@@ -34,8 +34,7 @@
 - Navigate to the official Go website: https://go.dev/doc/install
 - Download the appropriate installer for your OS and follow the instructions.
 - **Verify Installation:** Open your terminal/command prompt and run: go version
-# Expected output: go version go1.x.x <os>/<arch>
-
+Expected output: go version go1.x.x <os>/<arch>
 
    2. **Initialize Project:**
 - Create a new directory for your project and navigate into it.
