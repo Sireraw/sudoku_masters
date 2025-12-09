@@ -122,6 +122,7 @@ Expected Output (JSON Response):
 
 ## 6. AI Prompt Journal- ( ai_prompt_journal.md)
 | Prompt | Summary of AI Response | Evaluation/Reflection |
+|-------:|------------------------|-----------------------|
 | "Write a simple Go program that solves a 9x9 sudoku game using backtracking and prints the result." | Provided the core solveSudoku, isSafe, and printBoard functions. (The base for this project). | High Productivity. Solved the core algorithm problem instantly. Showed correct use of array pointers (*[N][N]int) for in-place modification. |
 | "Convert the Sudoku solver Go code into a RESTful API using the net/http package. It should accept a JSON body with the board and return the solved board as JSON." | Generated the solveHandler function, demonstrated how to use json.NewDecoder and json.NewEncoder, and defined the necessary struct types (SudokuRequest, SudokuResponse). | Excellent Clarity. Clearly demonstrated how Go uses structs for JSON marshaling/unmarshaling, which is crucial for API building in Go.|
 | "In Go's net/http package, how do I handle CORS headers (Access-Control-Allow-Origin) for a POST request?" | Provided the necessary w.Header().Set() commands for CORS and explained the need to handle the http.MethodOptions (pre-flight request). | **Targeted Solution.** Saved significant time debugging browser-based testing issues by providing the standard CORS pattern. |
