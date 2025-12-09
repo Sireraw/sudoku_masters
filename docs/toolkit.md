@@ -30,14 +30,14 @@
 - **API Client:** A tool like curl or Postman (or an in-browser console) to test the API endpoint.
 
 ## 4. Installation & Setup Instructions
- ## 1. **Install Go:**
+  1. **Install Go:**
 - Navigate to the official Go website: https://go.dev/doc/install
 - Download the appropriate installer for your OS and follow the instructions.
 - **Verify Installation:** Open your terminal/command prompt and run: go version
 # Expected output: go version go1.x.x <os>/<arch>
 
 
- ## 2. **Initialize Project:**
+   2. **Initialize Project:**
 - Create a new directory for your project and navigate into it.
 - Initialize a Go module (this manages dependencies, though we use only standard library here):
 ```bash
@@ -47,7 +47,7 @@ go mod init go-sudoku-api
 # Creates go.mod file
 ```
 
- ## 3. **Create Code File:**
+  3. **Create Code File:**
 - Create the file main.go and paste the API code from Section 5.
 
 ## 5. Minimal Working Example (The Go API)
@@ -55,9 +55,10 @@ The provided main.go file implements the entire solver and API server.
 
 **Code Explanation (Brief)**
 The core architecture is:
-**main():** Sets up a router (http.HandleFunc) to map the /solve path to the solveHandler function and starts the server on port 8080 (http.ListenAndServe).
-**solveHandler():** Reads the incoming request body, decodes the JSON into a SudokuRequest struct, calls the solveSudoku function, and sends the result back as a SudokuResponse JSON.
-**solveSudoku():** The recursive backtracking implementation that mutates the board pointer until a solution is found (returns true) or all paths are exhausted (returns false).
+
+  1. **main():** Sets up a router (http.HandleFunc) to map the /solve path to the solveHandler function and starts the server on port 8080 (http.ListenAndServe).
+  2. **solveHandler():** Reads the incoming request body, decodes the JSON into a SudokuRequest struct, calls the solveSudoku function, and sends the result back as a SudokuResponse JSON.
+  3. **solveSudoku():** The recursive backtracking implementation that mutates the board pointer until a solution is found (returns true) or all paths are exhausted (returns false).
 
 **Running the Server**
 Execute the Go program:
