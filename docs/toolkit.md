@@ -3,9 +3,8 @@
 *Technology Chosen:* Go (Golang)
 *Objective:* To learn Go fundamentals, focusing on its architecture for concurrent and network-based applications, by building a simple, high-performance Sudoku Solver REST API using the backtracking algorithm.
 End Goal: A runnable Go server that accepts an unsolved 9x9 Sudoku grid via a POST request (JSON) and returns the solved grid (JSON).
+
 ## 2. Quick Summary of the Technology
-
-
 Feature
 Description
 Name
@@ -42,16 +41,16 @@ Explicit. Uses multi-value returns (result, error). Developers must check errors
 Implicit. Uses try...except blocks.
 
 ## 3. System Requirements
-Operating System: Windows, macOS, or Linux (any modern distribution).
-Go Compiler/Runtime: Go 1.20 or newer.
-Text Editor: VS Code (recommended) or any other IDE with Go extension.
-API Client: A tool like curl or Postman (or an in-browser console) to test the API endpoint.
+- Operating System: Windows, macOS, or Linux (any modern distribution).
+- Go Compiler/Runtime: Go 1.20 or newer.
+- Text Editor: VS Code (recommended) or any other IDE with Go extension.
+- API Client: A tool like curl or Postman (or an in-browser console) to test the API endpoint.
+
 ## 4. Installation & Setup Instructions
 Install Go:
-Navigate to the official Go website: https://go.dev/doc/install
-Download the appropriate installer for your OS and follow the instructions.
-Verify Installation: Open your terminal/command prompt and run:
-go version
+- Navigate to the official Go website: https://go.dev/doc/install
+- Download the appropriate installer for your OS and follow the instructions.
+- Verify Installation: Open your terminal/command prompt and run: go version
 # Expected output: go version go1.x.x <os>/<arch>
 
 
@@ -139,21 +138,12 @@ Detailed the difference between standard library vs. framework, compiled vs. int
 Learning Reflection. Helped frame the "Quick Summary of the Technology" section and solidify the differences in language architecture.
 
 ## 7. Common Issues & Fixes
-Issue
-Description
-Resolution
-Error: json: cannot unmarshal array into Go value of type main.SudokuRequest
-The API client was sending the board data incorrectly, often without the encapsulating JSON object ({"board": [...]}).
-Fix: Ensure the incoming JSON body exactly matches the SudokuRequest struct, including the "board" key.
-API returns 405 Method Not Allowed
-The client was sending an OPTIONS request (CORS pre-flight) which the handler wasn't explicitly set up to handle, or the wrong method was used.
-Fix: Added the if r.Method == http.MethodOptions block in solveHandler and ensured the client uses POST.
-Solver gets stuck/returns wrong answer
-A subtle logic error, usually in the isValid checks, particularly the 3x3 box constraint.
-Fix: Double-check the pointer math: startRow := row - row%3 and startCol := col - col%3 are correct for finding the top-left corner of the box.
-Server only allows one connection at a time (Slow)
-(Self-Correction) If you had written blocking code inside solveSudoku, it would block the server. Go's net/http package automatically handles each incoming request in its own Goroutine, which is why the server remains highly responsive even during complex computations.
-Fix: (No fix needed, it's a Go feature!) The standard library's design prevents this issue, demonstrating Go's robust concurrency model.
+| Issue | Description | Resolution |
+|------:|-------------|------------|
+| Error: json: cannot unmarshal array into Go value of type main.SudokuRequest | The API client was sending the board data incorrectly, often without the encapsulating JSON object ({"board": [...]}). | Fix: Ensure the incoming JSON body exactly matches the SudokuRequest struct, including the "board" key. |
+| API returns 405 Method Not Allowed | The client was sending an OPTIONS request (CORS pre-flight) which the handler wasn't explicitly set up to handle, or the wrong method was used. | Fix: Added the if r.Method == http.MethodOptions block in solveHandler and ensured the client uses POST. |
+| Solver gets stuck/returns wrong answer | A subtle logic error, usually in the isValid checks, particularly the 3x3 box constraint. |  Fix: Double-check the pointer math: startRow := row - row%3 and startCol := col - col%3 are correct for finding the top-left corner of the box. |
+| Server only allows one connection at a time (Slow) | (Self-Correction) If you had written blocking code inside solveSudoku, it would block the server. Go's net/http package automatically handles each incoming request in its own Goroutine, which is why the server remains highly responsive even during complex computations. | Fix: (No fix needed, it's a Go feature!) The standard library's design prevents this issue, demonstrating Go's robust concurrency model. |
 
 ## 8. References
 Official Go Documentation: https://go.dev/doc/
