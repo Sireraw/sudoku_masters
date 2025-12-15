@@ -56,7 +56,7 @@ Generics
 Implicitly handled by dynamic typing.
 You must use Generics (introduced in Go 1.18) for type-safe code that works across different types, but for basic data structures, concrete types are still the norm.
 
- Common Misconceptions
+Common Misconceptions
 Misconception 1: Go is just a modern C. Go drops many complex features of C/C++ (e.g., manual memory management, inheritance, exceptions, operator overloading). It's much simpler and includes a garbage collector.
 Misconception 2: Go is too verbose because of explicit error handling. While checking if err != nil is required often, this explicitness is seen as a feature. It ensures no error is ignored, leading to more stable, production-ready code.
 Misconception 3: You can't do anything without types. While statically typed, Go has excellent type inference, meaning you don't always need to explicitly declare a type (e.g., var x = 42 is fine), but type safety is always maintained.
