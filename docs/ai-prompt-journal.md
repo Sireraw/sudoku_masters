@@ -362,10 +362,8 @@ Use the struct-and-method approach to organize code, which is the Go equivalent 
 |-----|-------|----------------|------------------|-----------|
 | 2025-12-10 | 1 | Conceptual Understanding | Python vs Go: Philosophical differences | Go implementation from knowledge based in python |
 | 2025-12-10 | 2 | Async & Concurrency | Concurrency in Go is a defining feature that sets it apart from Python, enabling highly scalable and efficient programs. | Application methods and relevant practices that can be learnt when moving between programming languages |
-| 2025-12-11 | 3 | Guided Implementation | This design ensures the main program doesn't freeze while the calculation is running, and the result is transferred safely without needing complex locks or shared memory. | Define a channel in your main function 
-Modify your calculation function. Use the go keyword to launch the function concurrently.
-Send the final result via the channel (c <- result). Wait for the result in the main thread (finalAnswer := <-c). |
-| 2025-12-11 | 4 | Verification |
+| 2025-12-11 | 3 | Guided Implementation | This design ensures the main program doesn't freeze while the calculation is running, and the result is transferred safely without needing complex locks or shared memory. | Define a channel in your main function. Modify your calculation function. Use the go keyword to launch the function concurrently. Send the final result via the channel (c <- result). Wait for the result in the main thread (finalAnswer := <-c). |
+| 2025-12-15 | 4 | Verification | Try out different Sudoku quizzes, and confirm the output |
 
 
 
