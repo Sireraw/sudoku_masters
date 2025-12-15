@@ -15,36 +15,26 @@ Before diving into code:
 ```
 **Response Summary**
 
-Python vs. Go: Philosophical Differences
-Feature
-Python's Philosophy
-Go's Philosophy
-Typing
-Dynamic (Duck Typing, "If it walks like a duck and quacks like a duck..."). Flexibility over rigidity.
+# Python vs. Go: Philosophical Differences
+| Feature | Python's Philosophy | Go's Philosophy |
+|---------|----------------------|----------------|
+| Typing | Dynamic (Duck Typing, "If it walks like a duck and quacks like a duck..."). | Flexibility over rigidity. |
 Static and Explicit. Code must compile, enforcing safety and clarity before runtime.
-Speed
-Developer Productivity is prioritized. The interpreter adds overhead; performance often relies on C extensions (like NumPy).
-Runtime Performance and Compilation Speed are prioritized. Code is compiled to native machine code.
-Concurrency
-Threading is limited by the Global Interpreter Lock (GIL). Heavy use of asynchronous programming (asyncio).
-Built-in, easy-to-use concurrency using Goroutines and Channels.
-Complexity
-Multiple ways to solve a problem (e.g., list comprehensions, decorators). "Readability counts."
-One obvious way to solve a problem. Opinionated simplicity and minimal syntax.
+| Speed | Developer Productivity is prioritized. The interpreter adds overhead; performance often relies on C extensions (like NumPy). | Runtime Performance and Compilation Speed are prioritized. Code is compiled to native machine code. |
+| Concurrency | Threading is limited by the Global Interpreter Lock (GIL). Heavy use of asynchronous programming (asyncio). | Built-in, easy-to-use concurrency using Goroutines and Channels.
+| Complexity | Multiple ways to solve a problem (e.g., list comprehensions, decorators). "Readability counts." | One obvious way to solve a problem. Opinionated simplicity and minimal syntax. |
 
-Problems GoLang Was Designed to Solve
+# Problems GoLang Was Designed to Solve
 Go was created at Google to address the pain points of working with massive, multi-core, networked systems in the early 21st century.
-Slow Compilation: Existing large-scale languages (like C++) took too long to compile, slowing down development cycles. Go compiles very quickly.
-Poor Concurrency/Parallelism: Modern servers have many cores. Go was designed with Goroutines (lightweight threads managed by the Go runtime) and Channels (for safe communication) to make concurrent programming easy and scalable.
-Complexity and Cognitive Load: To maintain large codebases with many developers, Go enforces a simple, minimal language specification with few features, making code predictable and easy to read.
+**Slow Compilation:** Existing large-scale languages (like C++) took too long to compile, slowing down development cycles. Go compiles very quickly.
+**Poor Concurrency/Parallelism:** Modern servers have many cores. Go was designed with Goroutines (lightweight threads managed by the Go runtime) and Channels (for safe communication) to make concurrent programming easy and scalable.
+**Complexity and Cognitive Load:** To maintain large codebases with many developers, Go enforces a simple, minimal language specification with few features, making code predictable and easy to read.
 Networking: Go is highly effective for building microservices, APIs, and networked tools due to its built-in concurrency model and strong standard library.
 
- Mental Model Adjustments for Python Developers
-Python Concept
-GoLang Adjustment
-Why it Matters
-Classes/OOP
-Go is not an Object-Oriented Language. It uses structs (data containers) and interfaces (contracts) to achieve composition over classical inheritance.
+ # Mental Model Adjustments for Python Developers
+| Python Concept | GoLang Adjustment | Why it Matters |
+|----------------|-------------------|----------------|
+| Classes/OOP | Go is not an Object-Oriented Language. It uses structs (data containers) and interfaces (contracts) to achieve composition over classical inheritance.
 You'll think about what data is (structs) and what it can do (interfaces) rather than inheritance hierarchies.
 Error Handling
 try...except blocks.
@@ -56,10 +46,10 @@ Generics
 Implicitly handled by dynamic typing.
 You must use Generics (introduced in Go 1.18) for type-safe code that works across different types, but for basic data structures, concrete types are still the norm.
 
-Common Misconceptions
-Misconception 1: Go is just a modern C. Go drops many complex features of C/C++ (e.g., manual memory management, inheritance, exceptions, operator overloading). It's much simpler and includes a garbage collector.
-Misconception 2: Go is too verbose because of explicit error handling. While checking if err != nil is required often, this explicitness is seen as a feature. It ensures no error is ignored, leading to more stable, production-ready code.
-Misconception 3: You can't do anything without types. While statically typed, Go has excellent type inference, meaning you don't always need to explicitly declare a type (e.g., var x = 42 is fine), but type safety is always maintained.
+# Common Misconceptions
+- **Misconception 1:** Go is just a modern C. Go drops many complex features of C/C++ (e.g., manual memory management, inheritance, exceptions, operator overloading). It's much simpler and includes a garbage collector.
+- **Misconception 2:** Go is too verbose because of explicit error handling. While checking if err != nil is required often, this explicitness is seen as a feature. It ensures no error is ignored, leading to more stable, production-ready code.
+- **Misconception 3:** You can't do anything without types. While statically typed, Go has excellent type inference, meaning you don't always need to explicitly declare a type (e.g., var x = 42 is fine), but type safety is always maintained.
 
 # Step 2: Step-by-Step Breakdown (Concept Focus)
 Concept chosen: Concurrency in Go
@@ -359,11 +349,11 @@ Use the struct-and-method approach to organize code, which is the Go equivalent 
 
 # Log Table 
 | Date | Step | Prompt (title) | Response Summary | Learnings |
-|-----|-------|----------------|------------------|-----------|
+|-------|-------|----------------|------------------|-----------|
 | 2025-12-10 | 1 | Conceptual Understanding | Python vs Go: Philosophical differences | Go implementation from knowledge based in python |
 | 2025-12-10 | 2 | Async & Concurrency | Concurrency in Go is a defining feature that sets it apart from Python, enabling highly scalable and efficient programs. | Application methods and relevant practices that can be learnt when moving between programming languages |
 | 2025-12-11 | 3 | Guided Implementation | This design ensures the main program doesn't freeze while the calculation is running, and the result is transferred safely without needing complex locks or shared memory. | Define a channel in your main function. Modify your calculation function. Use the go keyword to launch the function concurrently. Send the final result via the channel (c <- result). Wait for the result in the main thread (finalAnswer := <-c). |
-| 2025-12-15 | 4 | Verification | Try out different Sudoku quizzes, and confirm the output |
+| 2025-12-15 | 4 | Verification | Try out different Sudoku quizzes, and confirm the output | Result iteration (repetition, Incremental change and Feedback looping) enables the machine to get to closer, more accurate results. |
 
 
 
