@@ -36,19 +36,21 @@ go run main.go
 The server will start on port 8080: http://localhost:8080/solve
 
 # API Endpoint
-Method
-Path
-Description
+```bash
+| Method | Path | Description |
 POST
 /solve
 Submits a JSON payload containing the board array for solving.
+```
 
-Example Request Payload Structure:
+## Example Request Payload Structure:
+```bash
 { "board": [[5, 3, 0, ...], [...]] }
+```
 
-Architectural Takeaways (Go vs. Python)
+## Architectural Takeaways (Go vs. Python)
 This project demonstrates Go's strengths compared to typical Python API setups:
-Built-in Server: Go requires no external frameworks (like Flask/FastAPI) for robust API functionality, relying entirely on the standard library.
-Concurrency: The net/http server automatically handles incoming requests using fast, lightweight Goroutines, ensuring the API remains non-blocking even when the solver is busy.
-Type Safety: Input and output are strictly managed using Go structs with JSON tags, providing compile-time assurance that is often handled dynamically in Python.
+- **Built-in Server:** Go requires no external frameworks (like Flask/FastAPI) for robust API functionality, relying entirely on the standard library.
+- **Concurrency:** The net/http server automatically handles incoming requests using fast, lightweight Goroutines, ensuring the API remains non-blocking even when the solver is busy.
+- **Type Safety:** Input and output are strictly managed using Go structs with JSON tags, providing compile-time assurance that is often handled dynamically in Python.
 
