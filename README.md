@@ -38,6 +38,7 @@ The server will start on port 8080: http://localhost:8080/solve
 # API Endpoint
 
 | Method | Path | Description |
+|-------|-------|-------------|
 | POST | /solve | Submits a JSON payload containing the board array for solving. |
 
 
