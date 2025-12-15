@@ -36,12 +36,10 @@ go run main.go
 The server will start on port 8080: http://localhost:8080/solve
 
 # API Endpoint
-```bash
+
 | Method | Path | Description |
-POST
-/solve
-Submits a JSON payload containing the board array for solving.
-```
+| POST | /solve | Submits a JSON payload containing the board array for solving. |
+
 
 ## Example Request Payload Structure:
 ```bash
