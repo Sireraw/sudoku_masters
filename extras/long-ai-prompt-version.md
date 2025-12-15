@@ -18,17 +18,16 @@ Before diving into code:
 # Python vs. Go: Philosophical Differences
 | Feature | Python's Philosophy | Go's Philosophy |
 |---------|----------------------|----------------|
-| **Typing** | Dynamic (Duck Typing, "If it walks like a duck and quacks like a duck..."). | Flexibility over rigidity. |
-Static and Explicit. Code must compile, enforcing safety and clarity before runtime.
+| **Typing** | Dynamic (Duck Typing, "If it walks like a duck and quacks like a duck..."). | Flexibility over rigidity. | Static and Explicit. Code must compile, enforcing safety and clarity before runtime.
 | **Speed** | Developer Productivity is prioritized. The interpreter adds overhead; performance often relies on C extensions (like NumPy). | Runtime Performance and Compilation Speed are prioritized. Code is compiled to native machine code. |
 | **Concurrency** | Threading is limited by the Global Interpreter Lock (GIL). Heavy use of asynchronous programming (asyncio). | Built-in, easy-to-use concurrency using Goroutines and Channels.
 | **Complexity** | Multiple ways to solve a problem (e.g., list comprehensions, decorators). "Readability counts." | One obvious way to solve a problem. Opinionated simplicity and minimal syntax. |
 
 # Problems GoLang Was Designed to Solve
 Go was created at Google to address the pain points of working with massive, multi-core, networked systems in the early 21st century.
-**Slow Compilation:** Existing large-scale languages (like C++) took too long to compile, slowing down development cycles. Go compiles very quickly.
-**Poor Concurrency/Parallelism:** Modern servers have many cores. Go was designed with Goroutines (lightweight threads managed by the Go runtime) and Channels (for safe communication) to make concurrent programming easy and scalable.
-**Complexity and Cognitive Load:** To maintain large codebases with many developers, Go enforces a simple, minimal language specification with few features, making code predictable and easy to read.
+1) **Slow Compilation:** Existing large-scale languages (like C++) took too long to compile, slowing down development cycles. Go compiles very quickly.
+2) **Poor Concurrency/Parallelism:** Modern servers have many cores. Go was designed with Goroutines (lightweight threads managed by the Go runtime) and Channels (for safe communication) to make concurrent programming easy and scalable. 
+3) **Complexity and Cognitive Load:** To maintain large codebases with many developers, Go enforces a simple, minimal language specification with few features, making code predictable and easy to read.
 Networking: Go is highly effective for building microservices, APIs, and networked tools due to its built-in concurrency model and strong standard library.
 
  # Mental Model Adjustments for Python Developers
@@ -58,11 +57,13 @@ I want to understand concurrency in Go. Write a concise summary basing on the fo
 Concurrency in Go is a defining feature that sets it apart from Python, enabling highly scalable and efficient programs.
 
 1. How Concurrency is Implemented in Go
+
 Go implements concurrency through two main structures built into the language and runtime:
 Goroutines: These are not operating system (OS) threads but lightweight, concurrent execution units managed by the Go runtime. A single OS thread can host thousands of Goroutines. They are cheap to create (initial stack size is tiny, often 2KB) and are multiplexed onto a smaller number of OS threads by the Go scheduler.
 Channels: These are the communication pipes between Goroutines. They allow Goroutines to send and receive data safely. This design principle is summarized by Go's famous motto: "Don't communicate by sharing memory; share memory by communicating." Channels ensure that data access is synchronized, preventing race conditions.
 
 2. How it Compares to Python
+
 The approach to concurrency is one of the most significant differences between Go and Python:
 Feature
 Go's Concurrency Model
@@ -82,6 +83,7 @@ Manual use of Locks, Queues, and Semaphores to protect shared memory, which is p
 
 
 3. Key Features to Understand in Go Concurrency
+
 Before writing concurrent Go programs, focus on these features:
 The go Keyword: This simple keyword launches a function as a new Goroutine.
 Go
