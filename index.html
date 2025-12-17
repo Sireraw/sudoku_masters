@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Go Sudoku Solver Client</title>
+    <!-- Load Tailwind CSS for quick styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles to visually define 3x3 boxes */
+        .sudoku-grid {
+            display: grid;
+            grid-template-columns: repeat(9, 1fr);
+            border: 3px solid #1f2937; /* Dark Gray border for the main grid */
+        }
+        .sudoku-cell {
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            font-size: 1.25rem;
+            font-weight: 600;
+            border: 1px solid #d1d5db; /* Light gray internal border */
+            appearance: none; /* Remove default spinner for number inputs */
+            -moz-appearance: textfield;
+            padding: 0;
+            margin: 0;
+            background-color: #f9fafb;
+            color: #111827;
+            transition: all 0.1s;
+        }
+        /* Style the borders for the 3x3 box divisions */
+        .sudoku-cell:nth-child(3n) { border-right-width: 3px; border-right-color: #4b5563; }
+        .sudoku-cell:nth-child(9n) { border-right-width: 1px; border-right-color: #d1d5db; }
+        .row-group-separator .sudoku-cell { border-bottom-width: 3px; border-bottom-color: #4b5563; }
+        .sudoku-cell:focus {
+            outline: none;
+            background-color: #e5e7eb;
+            box-shadow: 0 0 0 2px #4f46e5;
+        }
+        /* Style for pre-filled cells */
+        .initial-value {
+            background-color: #e5e7eb;
+            color: #4b5563;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4 font-inter">
+
+    <div class="w-full max-w-lg bg-white rounded-xl shadow-2xl p-6 md:p-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">Go Sudoku Solver Client</h1>
+        <p class="text-gray-500 mb-6">Enter your puzzle (0 or empty for blank) and click Solve.</p>
+
+        <!-- Sudoku Grid Container -->
+        <div id="sudoku-container" class="grid grid-cols-1 gap-y-0.5 max-w-sm mx-auto shadow-lg rounded-lg overflow-hidden">
+            <!-- Grid will be injected here by JavaScript -->
+        </div>
+
+        <div class="mt-8 flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
+            <button id="solve-button" class="w-full sm:w-1/2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-150 ease-in-out shadow-md hover:shadow-lg disabled:opacity-50">
+                Solve Puzzle
+            </button>
+            <button id="example-button" class="w-full sm:w-1/4 bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 px-6 rounded-lg transition duration-150 ease-in-out">
+                Example
+            </button>
+            <button id="clear-button" class="w-full sm:w-1/4 bg-red-100 hover:bg-red-200 text-red-600 font-semibold py-3 px-6 rounded-lg transition duration-150 ease-in-out">
+                Clear
+            </button>
+        </div>
+
+        <!-- Message/Status Area -->
+        <div id="message-area" class="mt-6 p-4 rounded-lg text-sm font-medium hidden" role="alert"></div>
+
+    </div>
+
+    <script>
+        (function() { // Wrap in IIFE to create private scope and prevent global redeclaration errors
+            const API_URL = "http://localhost:8080/solve";
+            const N = 9;
+            const gridContainer = document.getElementById('sudoku-container');
+            const solveButton = document.getElementById('solve-button');
+            const exampleButton = document.getElementById('example-button');
+            const clearButton = document.getElementById('clear-button');
+            const messageArea = document.getElementById('message-area');
+
+            // Sample puzzle matching the one used in the Go program
+            const exampleBoard = [
+                [5, 3, 0, 0, 7, 0, 0, 0, 0],
+                [6, 0, 0, 1, 9, 5, 0, 0, 0],
+                [0, 9, 8, 0, 0, 0, 0, 6, 0],
+                [8, 0, 0, 0, 6, 0, 0, 0, 3],
+                [4, 0, 0, 8, 0, 3, 0, 0, 1],
+                [7, 0, 0, 0, 2, 0, 0, 0, 6],
+                [0, 6, 0, 0, 0, 0, 2, 8, 0],
+                [0, 0, 0, 4, 1, 9, 0, 0, 5],
+                [0, 0, 0, 0, 8, 0, 0, 7, 9],
+            ];
+
+
+            /**
+             * Sets up the initial 9x9 grid structure with input fields.
+             */
+            function setupGrid() {
+                for (let r = 0; r < N; r++) {
+                    const rowDiv = document.createElement('div');
+                    rowDiv.className = 'sudoku-grid ' + ((r % 3 === 2 && r !== N - 1) ? 'row-group-separator' : '');
+
+                    for (let c = 0; c < N; c++) {
+                        const input = document.createElement('input');
+                        input.type = 'text'; // Use text to control input validation
+                        input.id = `cell-${r}-${c}`;
+                        input.className = 'sudoku-cell';
+                        input.maxLength = '1';
+                        input.dataset.row = r;
+                        input.dataset.col = c;
+                        
+                        // Simple input validation to only allow 1-9
+                        input.addEventListener('input', (e) => {
+                            e.target.value = e.target.value.replace(/[^1-9]/g, '');
+                            // If cell is modified, remove initial-value class
+                            e.target.classList.remove('initial-value'); 
+                        });
+                        
+                        rowDiv.appendChild(input);
+                    }
+                    gridContainer.appendChild(rowDiv);
+                }
+            }
+
+            /**
+             * Extracts the current board state from the input fields.
+             * @returns {Array<Array<number>>} The 9x9 board array.
+             */
+            function getBoardData() {
+                const board = [];
+                for (let r = 0; r < N; r++) {
+                    const row = [];
+                    for (let c = 0; c < N; c++) {
+                        const input = document.getElementById(`cell-${r}-${c}`);
+                        const value = parseInt(input.value) || 0; // Treat empty or non-numeric as 0
+                        row.push(value);
+                    }
+                    board.push(row);
+                }
+                return board;
+            }
+
+            /**
+             * Populates the grid with a solved board.
+             * @param {Array<Array<number>>} solution - The 9x9 solved board array.
+             */
+            function displaySolution(solution, initialBoard) {
+                for (let r = 0; r < N; r++) {
+                    for (let c = 0; c < N; c++) {
+                        const input = document.getElementById(`cell-${r}-${c}`);
+                        input.value = solution[r][c];
+
+                        // Highlight solved cells that were initially empty
+                        const isInitial = initialBoard[r][c] !== 0;
+                        if (isInitial) {
+                            input.classList.add('initial-value');
+                            // Prevent initial values from being edited
+                            input.readOnly = true; 
+                        } else {
+                            input.classList.remove('initial-value');
+                            input.readOnly = false;
+                        }
+                    }
+                }
+            }
+
+            /**
+             * Displays status or error messages.
+             * @param {string} message - The message text.
+             * @param {string} type - 'success', 'error', or 'info'.
+             */
+            function displayMessage(message, type) {
+                messageArea.textContent = message;
+                messageArea.classList.remove('hidden', 'bg-green-100', 'text-green-800', 'bg-red-100', 'text-red-800', 'bg-gray-100', 'text-gray-800');
+
+                if (type === 'success') {
+                    messageArea.classList.add('bg-green-100', 'text-green-800');
+                } else if (type === 'error') {
+                    messageArea.classList.add('bg-red-100', 'text-red-800');
+                } else {
+                    messageArea.classList.add('bg-gray-100', 'text-gray-800');
+                }
+                messageArea.classList.remove('hidden');
+            }
+            
+            /**
+             * Fills the grid with the example board.
+             */
+            function fillExample() {
+                clearGrid(false); // Clear without showing message
+                displaySolution(exampleBoard, exampleBoard);
+                displayMessage('Example board loaded. Click Solve!', 'info');
+            }
+
+            /**
+             * Clears the grid inputs.
+             * @param {boolean} showMessage - Whether to show the clearance message.
+             */
+            function clearGrid(showMessage = true) {
+                for (let r = 0; r < N; r++) {
+                    for (let c = 0; c < N; c++) {
+                        const input = document.getElementById(`cell-${r}-${c}`);
+                        input.value = '';
+                        input.readOnly = false;
+                        input.classList.remove('initial-value');
+                    }
+                }
+                if (showMessage) {
+                    displayMessage('Grid cleared.', 'info');
+                } else {
+                    messageArea.classList.add('hidden');
+                }
+            }
+
+            /**
+             * Handles the API call to solve the Sudoku puzzle.
+             */
+            async function solveSudoku() {
+                const initialBoard = getBoardData();
+                
+                // Check for potential immediate errors (like board being full)
+                const emptyCells = initialBoard.flat().filter(val => val === 0).length;
+                if (emptyCells === 0) {
+                    displayMessage('The board is already full. Please check your inputs.', 'error');
+                    return;
+                }
+
+                solveButton.disabled = true;
+                solveButton.textContent = 'Solving...';
+                displayMessage('Sending puzzle to Go API...', 'info');
+
+                try {
+                    const response = await fetch(API_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ board: initialBoard })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+
+                    if (result.solved) {
+                        displaySolution(result.solution, initialBoard);
+                        displayMessage('SUCCESS: Puzzle solved by Go API!', 'success');
+                    } else {
+                        // This handles the case where the API returns 200 OK but solved: false
+                        displayMessage(`FAILURE: ${result.message}`, 'error');
+                    }
+
+                } catch (error) {
+                    console.error('Fetch error:', error);
+                    displayMessage(`Network Error: Could not connect to the Go API at ${API_URL}. Ensure the server is running on port 8080.`, 'error');
+                } finally {
+                    solveButton.disabled = false;
+                    solveButton.textContent = 'Solve Puzzle';
+                }
+            }
+
+            // --- Event Listeners and Initialization ---
+
+            // Attach event listeners to buttons
+            solveButton.addEventListener('click', solveSudoku);
+            exampleButton.addEventListener('click', fillExample);
+            clearButton.addEventListener('click', clearGrid);
+
+            // Initialize the grid when the page loads
+            window.onload = setupGrid;
+        })(); // End IIFE
+    </script>
+</body>
+</html>
